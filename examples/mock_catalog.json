@@ -1,0 +1,86 @@
+{
+  "catalog_name": "enterprise_lakehouse",
+  "storage_account": "datawisecode",
+  "default_schedule_runs_per_month": 30,
+  "tables": {
+    "gold.fact_events": {
+      "table_name": "gold.fact_events",
+      "format": "DELTA",
+      "total_size_gb": 4200.0,
+      "row_count": 18500000000,
+      "column_count": 48,
+      "partition_columns": ["event_date"],
+      "clustering_columns": ["tenant_id"],
+      "num_files": 16800,
+      "avg_file_size_mb": 256.0,
+      "distinct_partition_count": 365,
+      "columns": [
+        "event_id", "event_date", "event_timestamp", "tenant_id",
+        "user_id", "merchant_id", "event_type", "revenue_usd",
+        "device_os", "payload_json"
+      ]
+    },
+    "silver.orders": {
+      "table_name": "silver.orders",
+      "format": "DELTA",
+      "total_size_gb": 450.0,
+      "row_count": 1200000000,
+      "column_count": 32,
+      "partition_columns": ["order_month"],
+      "clustering_columns": ["customer_id", "merchant_id"],
+      "num_files": 1800,
+      "avg_file_size_mb": 256.0,
+      "distinct_partition_count": 36,
+      "columns": [
+        "order_id", "order_date", "order_month", "customer_id",
+        "merchant_id", "order_status", "total_amount", "currency_code",
+        "shipping_country", "discount_code"
+      ]
+    },
+    "silver.clickstream": {
+      "table_name": "silver.clickstream",
+      "format": "DELTA",
+      "total_size_gb": 850.0,
+      "row_count": 4200000000,
+      "column_count": 28,
+      "partition_columns": ["dt"],
+      "clustering_columns": [],
+      "num_files": 6800,
+      "avg_file_size_mb": 128.0,
+      "distinct_partition_count": 90,
+      "columns": [
+        "session_id", "dt", "user_id", "page_url", "referrer", "latency_ms"
+      ]
+    },
+    "dim.customers": {
+      "table_name": "dim.customers",
+      "format": "DELTA",
+      "total_size_gb": 0.12,
+      "row_count": 850000,
+      "column_count": 18,
+      "partition_columns": [],
+      "clustering_columns": ["customer_id"],
+      "num_files": 2,
+      "avg_file_size_mb": 60.0,
+      "distinct_partition_count": 1,
+      "columns": [
+        "customer_id", "email", "tier", "signup_date", "country"
+      ]
+    },
+    "dim.merchants": {
+      "table_name": "dim.merchants",
+      "format": "DELTA",
+      "total_size_gb": 0.045,
+      "row_count": 120000,
+      "column_count": 12,
+      "partition_columns": [],
+      "clustering_columns": ["merchant_id"],
+      "num_files": 1,
+      "avg_file_size_mb": 45.0,
+      "distinct_partition_count": 1,
+      "columns": [
+        "merchant_id", "merchant_name", "category", "region", "is_active"
+      ]
+    }
+  }
+}

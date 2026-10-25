@@ -1,0 +1,20 @@
+name: Dogfood PR Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.9"
+      - name: Install Poetry
+        run: pip install poetry
+      - name: Install dependencies
+        run: poetry install --with dev --no-interaction
+      - name: Run SQL shift-left scan
+        run: poetry run sql-shift-left scan examples/bad_etl_orders.sql --catalog examples/mock_catalog.json --format markdown
